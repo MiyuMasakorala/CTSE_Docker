@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(bodyparser.json());
 
-const URL = process.env.MONGODB_URL;
+const URL = "mongodb+srv://CtseGroup:ctse1234@ctsecluster.ijidm.mongodb.net/productsretryWrites=true&w=majority;"
 
 mongoose.connect(URL);
 const connection = mongoose.connection;

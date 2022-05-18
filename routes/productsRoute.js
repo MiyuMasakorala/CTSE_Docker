@@ -3,20 +3,15 @@ let Product = require("../modals/Products");
 
 router.route("/add").post((req,res) =>{
 
-    const name = res.body.name;
-    const price = Number(res.body.price);
-    const description = res.body.description;
-    const stockAvailable = res.body.stockAvailable;
-    const brandName = res.body.brandName;
-    const category = res.body.category;
+    const name = req.body.name
+    const price = req.body.price
+    const description = req.body.description
+
 
     const newProduct = new Product({
         name,
         price,
-        description,
-        stockAvailable,
-        brandName,
-        category
+        description
     })
 
     newProduct.save().then(() =>{
@@ -37,28 +32,28 @@ router.route("/getAll").get((req,res)=>{
 })
 
 router.route("/update/:id").put(async(req,res) =>{
-    let userId = req.body.id;
-    const {name,price,description,stockAvailable,brandName,category} = req.body;
+    let userId = req.params.id;
+    //console.log("Userge Id- ",req.body)
+    const name = req.body.name
+    const price = req.body.price
+    const description = req.body.description
 
     const updateProduct = {
         name,
         price,
-        description,
-        stockAvailable,
-        brandName,
-        category
+        description
     }
 
-    const update = await Product.findByIdAndUpdate(userId,updateProduct)
+    await Product.findByIdAndUpdate(userId,updateProduct)
     .then(() => {
-        res.status(200).send({status: "Product Updated",user: update})
+        res.status(200).send({status: "Product Updated"})
     }).catch((error)=>{
     res.status(500).send({status: "Error with update"})
     })
 })
 
 router.route("/delete/:id").delete(async (req,res) => {
-    let userId = req.body.id;
+    let userId = req.params.id;
     await Product.findByIdAndDelete(userId)
     .then(()=>{
         res.status(200).send({status: "Product Deleted"})
